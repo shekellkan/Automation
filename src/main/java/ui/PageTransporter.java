@@ -6,6 +6,7 @@ import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
+import ui.pages.HomePage;
 import ui.pages.LoginPage;
 //import ui.admin.pages.LoginTSAdminPage;
 //import ui.monitor.ApplicationsPage;
@@ -19,6 +20,8 @@ import ui.pages.LoginPage;
 public class PageTransporter {
     private WebDriver driver = DriverManager.getInstance().getWebDriver();
     private String baseLoginURL = "http://trello.com/login";
+    private String baseHomeURL = "http://trello.com/";
+
     private static PageTransporter instance;
 
     protected PageTransporter() {
@@ -47,5 +50,9 @@ public class PageTransporter {
     public LoginPage navigateToLoginPage() {
         goToURL(baseLoginURL);
         return new LoginPage();
+    }
+    public HomePage navigateToHomePage() {
+        goToURL(baseHomeURL);
+        return new HomePage();
     }
 }

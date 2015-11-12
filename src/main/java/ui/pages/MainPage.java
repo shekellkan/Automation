@@ -4,6 +4,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import ui.BasePageObject;
+import ui.PageTransporter;
 
 /**
  * Created with IntelliJ IDEA.
@@ -15,12 +16,32 @@ import ui.BasePageObject;
 
 
 public class MainPage extends BasePageObject{
-    @FindBy(className="header-logo-default")
+    PageTransporter page =PageTransporter.getInstance();
+
+    @FindBy(xpath = "//a[@aria-label='Trello Home']")
     WebElement logo;
+
+    @FindBy(xpath = "//span[contains(text(),'Miguel Terceros')]")
+    WebElement users;
+
+    @FindBy(xpath = "//a[contains(text(),'Log Out')]")
+    WebElement logoutBtn;
 
     @Override
     public void waitUntilPageObjectIsLoaded() {
         wait.until(ExpectedConditions.visibilityOf(logo));
     }
-    public MainPage(){}
+    public MainPage(){
+        waitUntilPageObjectIsLoaded();
+    }
+
+    public boolean isUserNameDisplayed() {
+        return users.isDisplayed();
+    }
+
+    public void logout() {
+        users.click();
+        logoutBtn.click();
+        page.navigateToHomePage();
+    }
 }

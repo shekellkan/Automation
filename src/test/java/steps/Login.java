@@ -1,44 +1,56 @@
 package steps;
 
 //import cucumber.api.PendingException;
+import cucumber.api.java.After;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import framework.DriverManager;
+
+import static org.testng.Assert.*;
+
 import org.junit.Assert;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import ui.PageTransporter;
 import ui.pages.LoginPage;
+import ui.pages.MainPage;
 
 
 /**
  * Created by MiguelTerceros on 11/9/2015.
  */
 public class Login {
-    private PageTransporter page = PageTransporter.getInstance();
+    private PageTransporter page= PageTransporter.getInstance();
     private LoginPage loginPage;
-    private DriverManager automation = DriverManager.getInstance();
-    private WebDriver driver;
+    private LoginPage loginErrorPage;
+    private MainPage mainPage;
+
+    private String errorEmail = "There isn't an account for this email";
+    private String errorPass = "Invalid password";
+    private String errorEmptyFields = "Missing email";
 
 
     @Given("^I navigate to login page of Trello.com$")
     public void navigateLoginPage(){
-       driver = automation.initialize();
-        //driver.get("https://trello.com/login");
-        page.navigateToLoginPage();
+        loginPage = page.navigateToLoginPage();
     }
 
     @When("^I login in Trello.com as \"(.*?)\" with password \"(.*?)\"$")
     public void I_login_as_with_password(String userName, String userPassword){
-        driver.findElement(By.id("user")).sendKeys(userName);
-        driver.findElement(By.id("password")).sendKeys(userPassword);
-        driver.findElement(By.id("login")).click();
+        mainPage = loginPage.loginSuccessful(userName, userPassword);
     }
 
     @Then("^I should login to Trello.com successfully$")
     public void verifyMainTrelloIsDisplayed(){
-       Assert.assertEquals("Miguel Terceros", driver.findElement(By.xpath("//span[text()='Miguel Terceros']")).getText());
+        assertTrue(mainPage.isUserNameDisplayed(), "the main project is displayed");
+        mainPage.logout();
+    }
+
+    @When("^I login in Trello.com as \"(.*?)\" with wrong password \"(.*?)\"$")
+    public void I_login_as_with_wrong_password(String userName, String userPassword){
+        loginErrorPage = loginPage.loginFailed(userName, userPassword);
+    }
+
+    @Then("^I not should login to Trello.com$")
+    public void verifyMainTrelloIsNotDisplayed(){
+        assertEquals(errorPass, loginErrorPage.getErrorMessage());
     }
 }

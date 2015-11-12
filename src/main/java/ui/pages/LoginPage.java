@@ -14,7 +14,7 @@ import ui.BasePageObject;
 import javax.swing.*;
 
 /**
- * Created by silvia valencia on 3/24/2015.
+ *
  */
 public class LoginPage extends BasePageObject {
 
@@ -29,6 +29,9 @@ public class LoginPage extends BasePageObject {
     @FindBy(id = "login")
     WebElement loginBtn;
 
+    @FindBy(className = "error-message")
+    WebElement loginErrorMessage;
+
     public LoginPage() {
         PageFactory.initElements(driver, this);
         waitUntilPageObjectIsLoaded();
@@ -39,19 +42,19 @@ public class LoginPage extends BasePageObject {
         wait.until(ExpectedConditions.visibilityOf(loginBtn));
     }
 
-    private LoginPage setUserNameInput(String userName) {
+    public LoginPage setUserNameInput(String userName) {
         userNameInput.clear();
         userNameInput.sendKeys(userName);
         return this;
     }
 
-    private LoginPage setPasswordInput(String password) {
+    public LoginPage setPasswordInput(String password) {
         passwordInput.clear();
         passwordInput.sendKeys(password);
         return this;
     }
 
-    private MainPage clickLoginBtnSuccessful() {
+    public MainPage clickLoginBtnSuccessful() {
         loginBtn.click();
         return new MainPage();
     }
@@ -61,7 +64,7 @@ public class LoginPage extends BasePageObject {
         return this;
     }
 
-    private void login(String userName, String password) {
+    public void login(String userName, String password) {
         setUserNameInput(userName);
         setPasswordInput(password);
     }
@@ -77,6 +80,6 @@ public class LoginPage extends BasePageObject {
     }
 
     public String getErrorMessage() {
-        return "error";//loginErrorMessage.getText();
+        return loginErrorMessage.getText();
     }
 }
