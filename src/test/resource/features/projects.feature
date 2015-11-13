@@ -18,10 +18,13 @@ Feature: Projects
 
   Scenario 3: Personalize a project
     Given I have a project existent
-      And I selected a color for the background of the project
+      Then I entered in the project
+      And I navigate until to menu Change Background
       And I change the background of the project
 
   Scenario 4: Delete a project
     Given I have a project existent
-      And I deleted the project
+    Then I entered in the project
+    And I navigate until to menu close board
+    And I delete the project
 

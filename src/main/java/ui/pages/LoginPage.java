@@ -12,6 +12,7 @@ import org.openqa.selenium.support.ui.Select;
 import ui.BasePageObject;
 
 import javax.swing.*;
+import java.util.NoSuchElementException;
 
 /**
  *
@@ -30,7 +31,7 @@ public class LoginPage extends BasePageObject {
     WebElement loginBtn;
 
     @FindBy(className = "error-message")
-    WebElement loginErrorMessage;
+    WebElement error;
 
     public LoginPage() {
         PageFactory.initElements(driver, this);
@@ -79,7 +80,22 @@ public class LoginPage extends BasePageObject {
         return clickLoginBtnFailed();
     }
 
-    public String getErrorMessage() {
-        return loginErrorMessage.getText();
+    public boolean getErrorMessage2(String ERROR_MESSAGE) {
+        wait.until(ExpectedConditions.visibilityOf(error));
+        WebElement error = driver.findElement(By.xpath("//form[contents(text(),'"+ERROR_MESSAGE+"')]"));;
+        return error.isDisplayed();
+    }
+
+    public boolean getErrorMessage(String ERROR_MESSAGE){
+        return isElementPresent(By.xpath("//div[@id='error']/p[@class='error-message']"));
+    }
+
+    public boolean isElementPresent(By byElement) {
+        try {
+            driver.findElement(byElement);
+            return true;
+        } catch (NoSuchElementException e) {
+            return false;
+        }
     }
 }

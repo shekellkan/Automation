@@ -51,6 +51,11 @@ public class Login {
 
     @Then("^I not should login to Trello.com$")
     public void verifyMainTrelloIsNotDisplayed(){
-        assertEquals(errorPass, loginErrorPage.getErrorMessage());
+        assertTrue(loginErrorPage.getErrorMessage(errorPass));
+    }
+
+    @When ("^I login in Trello.com with fields empty$")
+    public void I_login_with_fields_empty(){
+
     }
 }

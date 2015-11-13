@@ -21,7 +21,7 @@ public class MainPage extends BasePageObject{
     @FindBy(xpath = "//a[@aria-label='Trello Home']")
     WebElement logo;
 
-    @FindBy(xpath = "//span[contains(text(),'Miguel Terceros')]")
+    @FindBy(xpath = "//a[contains(@aria-label,'Open Member Menu')]")
     WebElement users;
 
     @FindBy(xpath = "//a[contains(text(),'Log Out')]")
@@ -36,7 +36,7 @@ public class MainPage extends BasePageObject{
     }
 
     public boolean isUserNameDisplayed() {
-        return users.isDisplayed();
+        return logo.isDisplayed();
     }
 
     public void logout() {
