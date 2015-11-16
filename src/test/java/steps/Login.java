@@ -1,6 +1,7 @@
 package steps;
 
 //import cucumber.api.PendingException;
+import cucumber.api.PendingException;
 import cucumber.api.java.After;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -18,14 +19,14 @@ import ui.pages.MainPage;
  * Created by MiguelTerceros on 11/9/2015.
  */
 public class Login {
-    private PageTransporter page= PageTransporter.getInstance();
+    private PageTransporter page = PageTransporter.getInstance();
     private LoginPage loginPage;
     private LoginPage loginErrorPage;
     private MainPage mainPage;
 
-    private String errorEmail = "There isn't an account for this email";
-    private String errorPass = "Invalid password";
-    private String errorEmptyFields = "Missing email";
+//    private String errorEmail = "There isn't an account for this email";
+//    private String errorPass = "Invalid password";
+//    private String errorEmptyFields = "Missing email";
 
 
     @Given("^I navigate to login page of Trello.com$")
@@ -40,7 +41,7 @@ public class Login {
 
     @Then("^I should login to Trello.com successfully$")
     public void verifyMainTrelloIsDisplayed(){
-        assertTrue(mainPage.isUserNameDisplayed(), "the main project is displayed");
+        assertTrue(mainPage.isLogoTrelloDisplayed(), "the main project is displayed");
         mainPage.logout();
     }
 
@@ -51,11 +52,17 @@ public class Login {
 
     @Then("^I not should login to Trello.com$")
     public void verifyMainTrelloIsNotDisplayed(){
-        assertTrue(loginErrorPage.getErrorMessage(errorPass));
+        assertTrue(loginErrorPage.getErrorMessage());
     }
 
     @When ("^I login in Trello.com with fields empty$")
     public void I_login_with_fields_empty(){
+        loginErrorPage = loginPage.clickLoginBtnFailed();
+    }
 
+    @When("^I login in Trello.com with a wrong email \"(.*?)\"$")
+    public void LoginWithAWrongEmail(String userName) throws Throwable {
+        loginPage.setUserNameInput(userName);
+        loginErrorPage = loginPage.clickLoginBtnFailed();
     }
 }

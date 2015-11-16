@@ -86,7 +86,7 @@ public class LoginPage extends BasePageObject {
         return error.isDisplayed();
     }
 
-    public boolean getErrorMessage(String ERROR_MESSAGE){
+    public boolean getErrorMessage(){
         return isElementPresent(By.xpath("//div[@id='error']/p[@class='error-message']"));
     }
 

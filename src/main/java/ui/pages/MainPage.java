@@ -1,5 +1,6 @@
 package ui.pages;
 
+import org.apache.log4j.chainsaw.Main;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -17,31 +18,54 @@ import ui.PageTransporter;
 
 public class MainPage extends BasePageObject{
     PageTransporter page =PageTransporter.getInstance();
+    MainTopMenuPage topMenuPage;
 
-    @FindBy(xpath = "//a[@aria-label='Trello Home']")
-    WebElement logo;
+    @FindBy(xpath = "//a[contains(text(),'Create new board…')]")
+    WebElement newProject;
 
-    @FindBy(xpath = "//a[contains(@aria-label,'Open Member Menu')]")
-    WebElement users;
+    @FindBy(xpath = "//input[@id='boardNewTitle']")
+    WebElement projectTitle;
 
-    @FindBy(xpath = "//a[contains(text(),'Log Out')]")
-    WebElement logoutBtn;
+    @FindBy(xpath = "//input[@value='Create']")
+    WebElement createProject;
+
+    public MainPage(){
+        waitUntilPageObjectIsLoaded();
+        topMenuPage = new MainTopMenuPage();
+    }
 
     @Override
     public void waitUntilPageObjectIsLoaded() {
-        wait.until(ExpectedConditions.visibilityOf(logo));
-    }
-    public MainPage(){
-        waitUntilPageObjectIsLoaded();
+        wait.until(ExpectedConditions.visibilityOf(topMenuPage.getLogo()));
     }
 
-    public boolean isUserNameDisplayed() {
-        return logo.isDisplayed();
+    public boolean isLogoTrelloDisplayed() {
+        return topMenuPage.isLogoDisplayed();
     }
 
     public void logout() {
-        users.click();
-        logoutBtn.click();
-        page.navigateToHomePage();
+        topMenuPage.logout();
+    }
+
+    public MainPage clickNewProject(){
+        newProject.click();
+        return this;
+    }
+
+    public  MainPage setProjectTitle(String title){
+        projectTitle.clear();
+        projectTitle.sendKeys(title);
+        return this;
+    }
+
+    public ProjectsPage clickCreateNewProject(){
+        createProject.click();
+        return new ProjectsPage();
+    }
+
+    public ProjectsPage createNewProjects(String title){
+        clickNewProject();
+        setProjectTitle(title);
+        return clickCreateNewProject();
     }
 }
