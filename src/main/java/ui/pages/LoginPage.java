@@ -1,5 +1,6 @@
 package ui.pages;
 
+import common.Utils;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.StaleElementReferenceException;
@@ -87,15 +88,6 @@ public class LoginPage extends BasePageObject {
     }
 
     public boolean getErrorMessage(){
-        return isElementPresent(By.xpath("//div[@id='error']/p[@class='error-message']"));
-    }
-
-    public boolean isElementPresent(By byElement) {
-        try {
-            driver.findElement(byElement);
-            return true;
-        } catch (NoSuchElementException e) {
-            return false;
-        }
+        return Utils.isElementPresent(By.xpath("//div[@id='error']/p[@class='error-message']"));
     }
 }

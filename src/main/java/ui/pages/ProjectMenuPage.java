@@ -13,10 +13,23 @@ public class ProjectMenuPage extends BasePageObject {
 
     @FindBy(xpath = "//h3[contains(text(),'Menu')]")
     WebElement title;
+    @FindBy(xpath = "//li/a[@class='board-menu-navigation-item-link js-open-more' and contains(text(),'More')]")
+    WebElement menuMore;
+    @FindBy(xpath = "")
+    WebElement menuCloseboard;
+
 
     @Override
     public void waitUntilPageObjectIsLoaded() {
         wait.until(ExpectedConditions.visibilityOf(title));
     }
 
+    public ProjectMenuPage clickMenuMore(){
+        menuMore.click();
+        return this;
+    }
+
+    public void NavigateCloseBoard(){
+
+    }
 }

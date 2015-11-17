@@ -1,12 +1,22 @@
 @teams
-  Feature: Teams
-    create a team, delete team, edit perfil, add members
+Feature: Teams
+  create a team, delete team, edit perfil, add members
 
-  Scenario 1: create a new team with 3 members
-    Given I need a new team "team_test"
-      And I have to create a new team "team_test"
-      Then I add members at new team.
+  Background:
+    Given I navigate to login page of Trello.com
+    And I login in Trello.com as "miguel.terceros@fundacion-jala.org" with password "morfeo3730"
 
-  Scenario 2: delete a team existent
-    Given I new deleted a team that is disolved
-    When I have a team existent with 
+  Scenario: create a new team
+    Given I need a new team
+    And I have to create a new team "newTeam"
+    Then The new team "newTeam" is created.
+
+  Scenario: create a new team with description
+    Given I need a new team
+    And I have to create a new team "Team_With_Description" with description "This is a new Team"
+    Then The new team "Team_With_Description" is created.
+
+  Scenario: delete a team existent "Teams_Deleted"
+    Given I deleted a team "Teams_Deleted" that is disolved
+    And I deleted the team
+    Then The team "Teams_Deleted" is deleted
