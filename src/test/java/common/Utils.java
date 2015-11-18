@@ -23,4 +23,13 @@ public class Utils {
             return false;
         }
     }
+
+    public static Boolean waitElementIsRemoved(By element){
+        Boolean elementFind;
+        do{
+            elementFind = isElementPresent(element);
+        }while (elementFind == Boolean.TRUE);
+        return elementFind;
+    }
+
 }

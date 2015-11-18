@@ -58,6 +58,21 @@ public class Teams {
         //Assert.assertFalse(mainPage.isTeamPresent(isDeleted));
     }
 
+    @Given("^I need add new members in team \"([^\"]*)\"$")
+    public void new_members_team(String nameTeam){
+        teamPage = mainPage.createNewTeams(nameTeam);
+    }
+
+    @And("^I navigate until to menu Members$")
+    public void navigate_menu_members(){
+        teamPage.clickMenuMembers();
+    }
+
+    @And("I add to member \"([^\"]*)\" with the email \"([^\"]*)\"")
+    public void add_new_member(String nameMember, String email){
+        teamPage.addMemberInTeam(nameMember, email);
+    }
+
     @After(value = "@teams", order = 999)
     public void afterLoginScenario() {
         mainPage.logout();

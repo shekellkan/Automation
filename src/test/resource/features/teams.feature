@@ -20,3 +20,17 @@ Feature: Teams
     Given I deleted a team "Teams_Deleted" that is disolved
     And I deleted the team
     Then The team "Teams_Deleted" is deleted
+
+  Scenario: add members existent in a team
+    Given I need add new members in team "Team_Members"
+      And I navigate until to menu Members
+      And I add to member "Ivan Morales" with the email "ivan.morales@fundacion-jala.org"
+      Then The  member "Ivan Morales" is added in the team
+
+#  Scenario: add new members in a team
+#    Given I need add new members in team "Team_New_Members"
+#    And I navigate until to menu Members
+#    And I sent a invitation for the new member "Miguel Terceros" with the email "shekellkan@gmail.com"
+#    Then The member "Miguel Terceros" is added in the team
+
+

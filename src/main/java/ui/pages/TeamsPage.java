@@ -27,6 +27,12 @@ public class TeamsPage extends BasePageObject {
     WebElement deletedBtn;
     @FindBy(xpath = "//input[@value='Delete Forever']")
     WebElement deletedForever;
+    @FindBy(xpath = "//a[contains(text(), 'Add Members')]")
+    WebElement addMembersBtn;
+    @FindBy(xpath = "//div[@class='search-with-spinner']/input")
+    WebElement setEmailField;
+    @FindBy(xpath = "//div[contains(@class,'js-search-results')]/ul/div/li/a")
+    WebElement membersOption;
 
     public TeamsPage(){
         waitUntilPageObjectIsLoaded();
@@ -58,6 +64,7 @@ public class TeamsPage extends BasePageObject {
 
     public TeamsPage clickMenuMembers(){
         menuMembers.click();
+        wait.until(ExpectedConditions.visibilityOf(addMembersBtn));
         return this;
     }
 
@@ -76,4 +83,24 @@ public class TeamsPage extends BasePageObject {
         waitUntilPageObjectIsLoaded();
         return new MainPage();
     }
+
+    public TeamsPage clickAddMembersBtn(){
+        addMembersBtn.click();
+        return this;
+    }
+
+    public TeamsPage setEmailMembers(String email){
+        setEmailField.clear();
+        setEmailField.sendKeys(email);
+        setEmailField.sendKeys("${KEY_ENTER}");
+        return this;
+    }
+
+    public TeamsPage clickMemberOptions(){
+        membersOption.click();
+    }
+
+//    public TeamsPage addMemberInTeam(String nameMember, String email){
+//
+//    }
 }

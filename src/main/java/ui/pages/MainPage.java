@@ -51,12 +51,15 @@ public class MainPage extends BasePageObject{
     @Override
     public void waitUntilPageObjectIsLoaded() {
         //logo = topMenuPage.getLogo();
-        //System.out.println(logo.getText());
         wait.until(ExpectedConditions.visibilityOf(logo));
     }
 
     public boolean isLogoTrelloDisplayed() {
         return logo.isDisplayed();//topMenuPage.isLogoDisplayed();
+    }
+
+    public WebElement isTeamBtnPresent(){
+        return teamsBtn;
     }
 
     public void logout() {
@@ -120,6 +123,6 @@ public class MainPage extends BasePageObject{
 
     public boolean isTeamPresent(String nameTeam){
         By isDeleted = By.xpath("//div[@class='boards-page-board-section-header']/h3[contains(text(),'"+nameTeam+"')]");
-        return Utils.isElementPresent(isDeleted);
+        return Utils.waitElementIsRemoved(isDeleted);
     }
 }
