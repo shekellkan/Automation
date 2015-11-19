@@ -3,6 +3,7 @@ package common;
 import framework.DriverManager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 
 import java.util.NoSuchElementException;
 
@@ -14,6 +15,7 @@ import java.util.NoSuchElementException;
  * To change this template use File | Settings | File Templates.
  */
 public class Utils {
+    public static WebElement memberFound;
     public static WebDriver driver = DriverManager.getInstance().getWebDriver();
     public static boolean isElementPresent(By byElement) {
         try {
@@ -32,4 +34,10 @@ public class Utils {
         return elementFind;
     }
 
+    public static WebElement findMember(By member){
+
+        memberFound = driver.findElement(member);
+        System.out.println("Aqui esta:" + memberFound.getText());
+        return memberFound;
+    }
 }

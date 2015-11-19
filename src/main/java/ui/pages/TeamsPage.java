@@ -1,5 +1,7 @@
 package ui.pages;
 
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -31,8 +33,12 @@ public class TeamsPage extends BasePageObject {
     WebElement addMembersBtn;
     @FindBy(xpath = "//div[@class='search-with-spinner']/input")
     WebElement setEmailField;
+    @FindBy(xpath = "//a[contains(@class,'icon-close' )]")
+    WebElement iconClose;
     @FindBy(xpath = "//div[contains(@class,'js-search-results')]/ul/div/li/a")
     WebElement membersOption;
+
+    WebElement memberInTeam = null;
 
     public TeamsPage(){
         waitUntilPageObjectIsLoaded();
@@ -92,15 +98,31 @@ public class TeamsPage extends BasePageObject {
     public TeamsPage setEmailMembers(String email){
         setEmailField.clear();
         setEmailField.sendKeys(email);
-        setEmailField.sendKeys("${KEY_ENTER}");
+        wait.until(ExpectedConditions.visibilityOf(membersOption));
         return this;
     }
 
     public TeamsPage clickMemberOptions(){
         membersOption.click();
+        return this;
     }
 
-//    public TeamsPage addMemberInTeam(String nameMember, String email){
-//
-//    }
+    public TeamsPage clickIconClose(){
+        iconClose.click();
+        return this;
+    }
+
+    public String isNewMemberTeamDisplayed(String fullName){
+        memberInTeam = driver.findElement(By.xpath("//span[contains(text(),'"+fullName+"')]"));
+        System.out.println(memberInTeam.getText());
+        return memberInTeam.getText();
+    }
+
+    public TeamsPage addMemberInTeam(String email){
+        clickAddMembersBtn();
+        setEmailMembers(email);
+        clickMemberOptions();
+        clickIconClose();
+        return this;
+    }
 }

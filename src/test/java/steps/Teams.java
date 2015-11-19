@@ -1,5 +1,6 @@
 package steps;
 
+import common.Utils;
 import cucumber.api.java.After;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
@@ -18,6 +19,7 @@ import ui.pages.TeamsPage;
 public class Teams {
     private MainPage mainPage = new MainPage();
     private TeamsPage teamPage;// = new TeamsPage();
+    public String newMember;
 
     @Given("^I need a new team$")
     public void new_Team(){
@@ -60,6 +62,7 @@ public class Teams {
 
     @Given("^I need add new members in team \"([^\"]*)\"$")
     public void new_members_team(String nameTeam){
+        mainPage.clickNewTeams();
         teamPage = mainPage.createNewTeams(nameTeam);
     }
 
@@ -70,7 +73,13 @@ public class Teams {
 
     @And("I add to member \"([^\"]*)\" with the email \"([^\"]*)\"")
     public void add_new_member(String nameMember, String email){
-        teamPage.addMemberInTeam(nameMember, email);
+        teamPage.addMemberInTeam(email);
+        newMember = teamPage.isNewMemberTeamDisplayed(nameMember);
+    }
+
+    @Then("^The  member \"([^\"]*)\" is added in the team$")
+    public void new_member_is_added(String nameMember){
+        Assert.assertEquals(nameMember, newMember);
     }
 
     @After(value = "@teams", order = 999)
