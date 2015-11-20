@@ -1,6 +1,7 @@
 package steps;
 
 import common.Utils;
+import cucumber.api.PendingException;
 import cucumber.api.java.After;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
@@ -85,5 +86,11 @@ public class Teams {
     @After(value = "@teams", order = 999)
     public void afterLoginScenario() {
         mainPage.logout();
+    }
+
+    @And("^I sent a invitation for the new member \"([^\"]*)\" with the email \"([^\"]*)\"$")
+    public void iSentAInvitationForTheNewMemberWithTheEmail(String nameMember, String email){
+        teamPage.invitedNewMemberTeam(nameMember, email);
+        newMember = teamPage.isNewMemberTeamDisplayed(nameMember);
     }
 }

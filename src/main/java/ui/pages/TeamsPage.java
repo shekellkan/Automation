@@ -33,10 +33,16 @@ public class TeamsPage extends BasePageObject {
     WebElement addMembersBtn;
     @FindBy(xpath = "//div[@class='search-with-spinner']/input")
     WebElement setEmailField;
+    @FindBy(xpath = "//input[contains(@class,'js-full-name')]")
+    WebElement setFullNameInvited;
     @FindBy(xpath = "//a[contains(@class,'icon-close' )]")
     WebElement iconClose;
     @FindBy(xpath = "//div[contains(@class,'js-search-results')]/ul/div/li/a")
     WebElement membersOption;
+    @FindBy(xpath = "//form[contains(@class,'js-email-data')]/label[contains(text(), 'Full Name')]")
+    WebElement fullNameForm;
+    @FindBy(xpath = "//form[contains(@class,'js-email-data')]/input[contains(@class,'js-send-email-invite') and contains(@value,'Send')]")
+    WebElement sendInvitedBtn;
 
     WebElement memberInTeam = null;
 
@@ -102,6 +108,19 @@ public class TeamsPage extends BasePageObject {
         return this;
     }
 
+    public TeamsPage setEmailMembersInvited(String email){
+        setEmailField.clear();
+        setEmailField.sendKeys(email);
+        wait.until(ExpectedConditions.visibilityOf(fullNameForm));
+        return this;
+    }
+
+    public TeamsPage setNameInvite(String fullName){
+        setFullNameInvited.clear();
+        setFullNameInvited.sendKeys(fullName);
+        return this;
+    }
+
     public TeamsPage clickMemberOptions(){
         membersOption.click();
         return this;
@@ -112,8 +131,13 @@ public class TeamsPage extends BasePageObject {
         return this;
     }
 
+    public TeamsPage clickSendInvitedMember(){
+        sendInvitedBtn.click();
+        return this;
+    }
+
     public String isNewMemberTeamDisplayed(String fullName){
-        memberInTeam = driver.findElement(By.xpath("//span[contains(text(),'"+fullName+"')]"));
+        memberInTeam = driver.findElement(By.xpath("//span[contains(@class, 'full-name') and contains(text(),'"+fullName+"')]"));
         System.out.println(memberInTeam.getText());
         return memberInTeam.getText();
     }
@@ -123,6 +147,14 @@ public class TeamsPage extends BasePageObject {
         setEmailMembers(email);
         clickMemberOptions();
         clickIconClose();
+        return this;
+    }
+
+    public TeamsPage invitedNewMemberTeam(String fullName, String email) {
+        clickAddMembersBtn();
+        setEmailMembersInvited(email);
+        setNameInvite(fullName);
+        clickSendInvitedMember();
         return this;
     }
 }
