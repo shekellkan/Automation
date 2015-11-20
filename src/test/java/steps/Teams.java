@@ -6,6 +6,7 @@ import cucumber.api.java.After;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
+import framework.DriverManager;
 import junit.framework.Assert;
 import ui.pages.MainPage;
 import ui.pages.TeamsPage;
@@ -22,12 +23,12 @@ public class Teams {
     private TeamsPage teamPage;// = new TeamsPage();
     public String newMember;
 
-    @Given("^I need a new team$")
+    @Given("^I go to Create Team page$")
     public void new_Team(){
         mainPage.clickNewTeams();
     }
 
-    @And("^I have to create a new team \"([^\"]*)\"$")
+    @And("^I create a new team \"([^\"]*)\"$")
     public void create_Teams(String name){
         teamPage = mainPage.createNewTeams(name);
     }
@@ -43,7 +44,10 @@ public class Teams {
         Assert.assertEquals(name, teamPage.nameTeam());
     }
 
-    @Given("^I deleted a team \"([^\"]*)\" that is disolved$")
+    /**
+     * ******************************
+     */
+    @Given("^I create a team \"([^\"]*)\"$")
     public void deleted_a_team(String name){
         mainPage.clickNewTeams();
         teamPage = mainPage.createNewTeams(name);
@@ -57,8 +61,8 @@ public class Teams {
     }
 
     @Then("^The team \"([^\"]*)\" is deleted$")
-    public void teams_is_deleted(String isDeleted){
-        //Assert.assertFalse(mainPage.isTeamPresent(isDeleted));
+    public void teams_is_deleted(String teamDeleted){
+        Assert.assertFalse(mainPage.isTeamPresent(teamDeleted));
     }
 
     @Given("^I need add new members in team \"([^\"]*)\"$")
@@ -76,6 +80,7 @@ public class Teams {
     public void add_new_member(String nameMember, String email){
         teamPage.addMemberInTeam(email);
         newMember = teamPage.isNewMemberTeamDisplayed(nameMember);
+        System.out.println(nameMember);
     }
 
     @Then("^The  member \"([^\"]*)\" is added in the team$")
@@ -83,14 +88,15 @@ public class Teams {
         Assert.assertEquals(nameMember, newMember);
     }
 
-    @After(value = "@teams", order = 999)
-    public void afterLoginScenario() {
-        mainPage.logout();
-    }
-
     @And("^I sent a invitation for the new member \"([^\"]*)\" with the email \"([^\"]*)\"$")
     public void iSentAInvitationForTheNewMemberWithTheEmail(String nameMember, String email){
         teamPage.invitedNewMemberTeam(nameMember, email);
         newMember = teamPage.isNewMemberTeamDisplayed(nameMember);
+    }
+
+    @After(value = "@teams", order = 999)
+    public void afterTeamScenario() {
+        mainPage.logout();
+        DriverManager.getInstance().quitDriver();
     }
 }

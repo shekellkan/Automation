@@ -30,7 +30,7 @@ public class Utils {
         Boolean elementFind;
         do{
             elementFind = isElementPresent(element);
-        }while (elementFind == Boolean.TRUE);
+        }while (elementFind == Boolean.TRUE);       //todo update solve bucle infinito
         return elementFind;
     }
 

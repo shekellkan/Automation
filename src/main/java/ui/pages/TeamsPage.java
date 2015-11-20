@@ -92,8 +92,13 @@ public class TeamsPage extends BasePageObject {
 
     public MainPage clickBtnDeletedForever(){
         deletedForever.click();
-        waitUntilPageObjectIsLoaded();
         return new MainPage();
+    }
+
+    public MainPage deleteTeams(){
+        clickMenuSetting();
+        clickBtnDeleted();
+        return clickBtnDeletedForever();
     }
 
     public TeamsPage clickAddMembersBtn(){
@@ -138,7 +143,6 @@ public class TeamsPage extends BasePageObject {
 
     public String isNewMemberTeamDisplayed(String fullName){
         memberInTeam = driver.findElement(By.xpath("//span[contains(@class, 'full-name') and contains(text(),'"+fullName+"')]"));
-        System.out.println(memberInTeam.getText());
         return memberInTeam.getText();
     }
 

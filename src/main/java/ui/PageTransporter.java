@@ -51,8 +51,13 @@ public class PageTransporter {
         goToURL(baseLoginURL);
         return new LoginPage();
     }
+
     public HomePage navigateToHomePage() {
         goToURL(baseHomeURL);
         return new HomePage();
+    }
+
+    public void quitDriver(){
+        driver.quit();
     }
 }
